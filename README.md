@@ -11,23 +11,12 @@ This allows you to run Windows Apps via umu inside a sandbox (via bwrap).
 ## command line arguments
 umu-sandbox [options] executable.exe
 
---net
-grant access to internet
-
---no-audio | --disable-audio
-self explaining
-
---xdg-runtime-dir
-grant access to $XDG_RUNTIME_DIR
-
---devices
-grant access to all devices
-
---usb
-grant access to all usb media drives
-
---ro-usb
-same as --usb but read-only
-
---no-fsync
-disable fsync in proton
+```
+--net                         grant access to internet
+--no-audio | --disable-audio  self explaining
+--xdg-runtime-dir             grant access to $XDG_RUNTIME_DIR
+--devices                     grant access to all devices
+--usb                         grant access to all usb media drives
+--ro-usb                      same as --usb but read-only
+--no-fsync                    disable fsync in proton
+```
