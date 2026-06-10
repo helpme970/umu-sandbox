@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -euo pipefail
-
 # Exit if no argument is given
 if [ $# -eq 0 ]; then
     echo "Bitte übergib den Programmnamen oder den Pfad zur Datei als Parameter"
@@ -14,6 +12,7 @@ cmd="--stdir --debug --pass ./ --enable-userns --setenv PATH \"$PATH\" --gpu --s
 
 shortcut=false
 chdir=""
+home=""
 if [ $# -gt 0 ]; then
     for ((i=1 ; i<=$# ; i++ )); do
         arg=${!i}
@@ -38,9 +37,9 @@ if [ $# -gt 0 ]; then
                 ((i++))
                 chdir=" start /d\"${!i}\""
             };;
-            --shortcut) {
-                shortcut=true
-            };;
+            # --shortcut) {
+            #     shortcut=true
+            # };;
             --input) {
                 cmd="$cmd --input"
             };;
@@ -80,6 +79,7 @@ if [ $# -gt 0 ]; then
             --home) {
                 ((i++))
                 cmd="--bind ${!i} / $cmd"
+                home="${!i}"
             };;
             --desktop-portal) {
                 cmd="$cmd --desktop-portal"
@@ -121,7 +121,7 @@ if [ $# -gt 0 ]; then
                     cmd="$cmd --setenv WINEDLLOVERRIDES '$WINEDLLOVERRIDES'"
                 fi
                 cmd="bash bubblejail $cmd"
-                cmd="$cmd -p umu/umu-run \"$arg\"" #--setenv PROTON_LOG_DIR ~
+                cmd="$cmd -p umu/umu-run" #--setenv PROTON_LOG_DIR ~
                 if [[ "$chdir" != "" ]]; then
                     cmd="$cmd $chdir"
                 fi
@@ -148,7 +148,17 @@ Categories=Game;"
         esac
     done
 fi
-#eval "WINEPREFIX=\"$WINEPREFIX\" bash umu-sandbox winetricks settings sandbox"
+
+if [[ $sandbox == true ]]; then
+    if [[ "$home" != "" ]]; then
+        echo "WINEPREFIX=\"$WINEPREFIX\" bash umu-sandbox --home '$home' --ro-usb winetricks settings sandbox"
+        eval "WINEPREFIX=\"$WINEPREFIX\" bash umu-sandbox --home '$home' --ro-usb winetricks settings sandbox"
+    else
+        echo "WINEPREFIX=\"$WINEPREFIX\" bash umu-sandbox --ro-usb winetricks settings sandbox"
+        eval "WINEPREFIX=\"$WINEPREFIX\" bash umu-sandbox --ro-usb winetricks settings sandbox"
+    fi
+fi
+
 
 echo "$cmd"
 
