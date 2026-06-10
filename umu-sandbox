@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 # Exit if no argument is given
 if [ $# -eq 0 ]; then
     echo "Bitte übergib den Programmnamen oder den Pfad zur Datei als Parameter"
