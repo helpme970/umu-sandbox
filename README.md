@@ -20,4 +20,9 @@ umu-sandbox [options] executable.exe
 --ro-usb                      same as --usb but read-only
 --no-fsync                    disable fsync in proton
 --log                         enable logging
+--video <socket>              share a specific socket to the program
+--chdir <dir>                 execute the EXE in a specific directory
+--input                       needed for controllers etc.
+--noseccomp                   may improve cpu performance by opening an escape from the sandbox
+--home <dir>                  directory where the sandbox is located
 ```
